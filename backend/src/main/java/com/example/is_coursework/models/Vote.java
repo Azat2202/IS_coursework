@@ -20,12 +20,12 @@ public class Vote {
     private Room room;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "character_id", nullable = false)
-    private Character character;
+    @JoinColumn(name = "hero_id", nullable = false)
+    private Hero hero;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "target_character_id", nullable = false)
-    private Character targetCharacter;
+    @JoinColumn(name = "target_hero_id", nullable = false)
+    private Hero targetHero;
 
     @Column(nullable = false)
     private Integer roundNumber;

@@ -97,7 +97,7 @@ CREATE TABLE room
 );
 
 
-CREATE TABLE characters
+CREATE TABLE heroes
 (
     id            SERIAL PRIMARY KEY,
     user_id       INT         NOT NULL REFERENCES users (id),
@@ -117,11 +117,11 @@ CREATE TABLE characters
 );
 
 
-CREATE TABLE character_in_room
+CREATE TABLE hero_in_room
 (
-    character_id INT NOT NULL REFERENCES characters (id),
+    hero_id INT NOT NULL REFERENCES heroes (id),
     room_id      INT NOT NULL REFERENCES room (id),
-    PRIMARY KEY (character_id, room_id)
+    PRIMARY KEY (hero_id, room_id)
 );
 
 
@@ -137,9 +137,9 @@ CREATE TABLE votes
 (
     id                  SERIAL PRIMARY KEY,
     room_id             INT NOT NULL REFERENCES room (id),
-    character_id        INT NOT NULL REFERENCES characters (id),
-    target_character_id INT NOT NULL REFERENCES characters (id),
+    hero_id        INT NOT NULL REFERENCES heroes (id),
+    target_hero_id INT NOT NULL REFERENCES heroes (id),
     round_number        INT NOT NULL CHECK ( round_number > 0 ),
-    CONSTRAINT unique_vote UNIQUE (room_id, character_id, round_number),
-    CONSTRAINT character_ne_target CHECK (character_id <> target_character_id)
+    CONSTRAINT unique_vote UNIQUE (room_id, hero_id, round_number),
+    CONSTRAINT hero_ne_target CHECK (hero_id <> target_hero_id)
 );
