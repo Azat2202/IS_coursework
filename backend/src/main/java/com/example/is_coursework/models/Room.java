@@ -26,6 +26,15 @@ public class Room {
     @JoinColumn(name = "cataclysm_id", nullable = false)
     private Cataclysm cataclysm;
 
+    @Column(nullable = false, unique = true)
+    private String joinCode;
+
+    @Column(nullable = false)
+    private Boolean isStarted;
+
+    @Column(nullable = false)
+    private Boolean isClosed;
+
     @ManyToMany
     @JoinTable(
             name = "character_in_room",
@@ -33,4 +42,8 @@ public class Room {
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private List<Character> characters;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "admin", nullable = false)
+    private User admin;
 }

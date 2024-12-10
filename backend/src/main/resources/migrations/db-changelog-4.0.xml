@@ -4,9 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
-    <include file="migrations/db-changelog-1.0.sql"/>
-    <include file="migrations/db-changelog-2.0.sql"/>
-    <include file="migrations/db-changelog-3.0.xml"/>
-    <include file="migrations/db-changelog-4.0.xml"/>
-    <include file="migrations/db-changelog-5.0.xml"/>
+    <changeSet author="azat222" id="3">
+        <dropColumn tableName="characters" columnName="sex"/>
+        <addColumn tableName="characters">
+            <column name="sex" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
