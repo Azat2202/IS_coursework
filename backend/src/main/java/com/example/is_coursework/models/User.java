@@ -3,7 +3,7 @@ package com.example.is_coursework.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "users")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,4 +17,7 @@ public class User {
 
     @Column(nullable = false)
     private String login;
+
+    @Column(nullable = false)
+    private String username;
 }
