@@ -4,7 +4,7 @@ import com.example.is_coursework.models.enums.SexType;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "characters")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -37,35 +37,34 @@ public class Character {
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "body_type_id", nullable = false)
+    @JoinColumn(name = "body_type_id")
     private BodyType bodyType;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "health_id", nullable = false)
+    @JoinColumn(name = "health_id")
     private Health health;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trait_id", nullable = false)
+    @JoinColumn(name = "trait_id")
     private Trait trait;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hobby_id", nullable = false)
+    @JoinColumn(name = "hobby_id")
     private Hobby hobby;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "profession_id", nullable = false)
+    @JoinColumn(name = "profession_id")
     private Profession profession;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "phobia_id", nullable = false)
+    @JoinColumn(name = "phobia_id")
     private Phobia phobia;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "equipment_id", nullable = false)
+    @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bag_id", nullable = false)
+    @JoinColumn(name = "bag_id")
     private Bag bag;
 }

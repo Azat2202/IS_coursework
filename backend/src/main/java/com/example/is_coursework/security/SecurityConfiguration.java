@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                         .accessDeniedHandler(
                                 (request, response, exception) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN)))
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/api/me")
+                        .requestMatchers("/api/**")
                         .authenticated()
                         .anyRequest()
                         .permitAll())
