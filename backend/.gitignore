@@ -138,3 +138,7 @@ buildNumber.properties
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,java,maven
+
+.env
+.idea
+src/main/resources/application.properties

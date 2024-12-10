@@ -32,5 +32,5 @@ public class Room {
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "hero_id")
     )
-    private List<Hero> heros;
+    private List<Hero> heroes;
 }
