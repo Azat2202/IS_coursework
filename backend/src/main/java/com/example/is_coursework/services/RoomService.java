@@ -54,7 +54,6 @@ public class RoomService {
 
     public RoomMessage createRoom(User user) {
         Random random = new Random(user.hashCode() + System.currentTimeMillis());
-
         List<Cataclysm> allCataclysms = cataclysmRepository.findAll();
         List<Equipment> allEquipments = equipmentRepository.findAll();
 
@@ -86,7 +85,7 @@ public class RoomService {
         return modelMapper.map(room, RoomMessage.class);
     }
 
-    public RoomMessage getRoom(User user, Long roomId) throws AccessDeniedException {
+    public RoomMessage getRoom(User user, Long roomId) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("Room not found"));
         if (!room.getAdmin().equals(user) &&
                 room.getCharacters()
@@ -97,7 +96,7 @@ public class RoomService {
         return modelMapper.map(room, RoomMessage.class);
     }
 
-    public RoomMessage joinRoom(User user, String joinCode) throws AccessDeniedException {
+    public RoomMessage joinRoom(User user, String joinCode) {
         Room room = roomRepository.findByJoinCode(joinCode)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
         if (room.getCharacters()

@@ -1,12 +1,14 @@
 package com.example.is_coursework.models;
 
+import com.example.is_coursework.messages.VoteMessage;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "votes")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString(exclude = {"room", "character", "targetCharacter", "poll"})
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Vote {
@@ -27,6 +29,14 @@ public class Vote {
     @JoinColumn(name = "target_character_id", nullable = false)
     private Character targetCharacter;
 
-    @Column(nullable = false)
-    private Integer roundNumber;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "poll_id", nullable = false)
+    private Poll poll;
+
+    public VoteMessage toVoteMessage(){
+        return VoteMessage.builder()
+                .id(id)
+                .targetCharacter(targetCharacter)
+                .build();
+    }
 }
