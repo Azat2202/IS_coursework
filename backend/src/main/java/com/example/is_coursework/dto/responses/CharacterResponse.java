@@ -11,7 +11,7 @@ import lombok.Getter;
 @Builder(toBuilder = true)
 @Getter
 @AllArgsConstructor
-public class HeroResponse {
+public class CharacterResponse {
     private Long id;
     private String name;
     private Integer age;

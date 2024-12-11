@@ -28,9 +28,9 @@ public class Room {
 
     @ManyToMany
     @JoinTable(
-            name = "hero_in_room",
+            name = "character_in_room",
             joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "hero_id")
+            inverseJoinColumns = @JoinColumn(name = "character_id")
     )
-    private List<Hero> heroes;
+    private List<Character> characters;
 }
