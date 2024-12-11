@@ -2,14 +2,18 @@ package com.example.is_coursework.security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import java.util.List;
 
@@ -17,6 +21,8 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    @Value("${spring.security.oauth2.issuerUrl}")
+    private String issuerUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
@@ -39,20 +45,18 @@ public class SecurityConfiguration {
                         .accessDeniedHandler(
                                 (request, response, exception) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN)))
                 .authorizeHttpRequests(configurer -> configurer
-//                        .requestMatchers("/api/auth/**")
-//                        .permitAll()
-//                        .requestMatchers("/api/admin/**")
-//                        .hasRole(Role.ADMIN.name())
-//                        .requestMatchers("/api/user/proposal")
-//                        .not().hasRole(Role.ADMIN.name())
-//                        .requestMatchers("/api/**")
-//                        .hasRole(Role.DEFAULT.name())
+                        .requestMatchers("/api/me")
+                        .authenticated()
                         .anyRequest()
                         .permitAll())
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .anonymous(AbstractHttpConfigurer::disable);
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return JwtDecoders.fromIssuerLocation(issuerUrl);
     }
 
 }
