@@ -76,14 +76,6 @@ public class CharacterService {
         return toCharacterResponse(character);
     }
 
-    public List<CharacterResponse> getAllCharacters() {
-        List<Character> characters = characterRepository.findAll();
-        return characters
-                .stream()
-                .map(this::toCharacterResponse)
-                .toList();
-    }
-
     public FactResponse openFact(Long characterId, String factType) {
         Character character = characterRepository.findById(characterId).orElseThrow(
                 () -> new IllegalArgumentException("Character not found"));

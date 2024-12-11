@@ -19,19 +19,14 @@ public class CharacterController {
     private final CharacterService characterService;
 
     @PostMapping("/create")
-    public CharacterResponse createCharacter(Authentication authentication, @RequestBody CharacterRequest characterRequest) {
-        String username = authentication.getName();
+    public CharacterResponse createCharacter(@RequestBody CharacterRequest characterRequest) { //Authentication authentication,
+        String username = "";//authentication.getName();
         return characterService.createCharacter(characterRequest, username);
     }
 
     @GetMapping("/{id}")
     public CharacterResponse getCharacterById(@PathVariable Long id) {
         return characterService.getCharacterById(id);
-    }
-
-    @GetMapping("/all")
-    public List<CharacterResponse> getAllCharacters() {
-        return characterService.getAllCharacters();
     }
 
     @GetMapping("/{id}/{factType}")

@@ -139,5 +139,5 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,java,maven
 
-.env
+backend/src/main/resources/secrets.properties
 .idea
