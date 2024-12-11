@@ -23,6 +23,7 @@ public class Character {
     private Integer age;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SexType sex;
 
     @Column(nullable = false)
