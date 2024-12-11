@@ -1,16 +1,16 @@
 package com.example.is_coursework.services;
 
 import com.example.is_coursework.dto.requests.CharacterRequest;
-import com.example.is_coursework.dto.responses.FactResponse;
 import com.example.is_coursework.dto.responses.CharacterResponse;
-import com.example.is_coursework.models.*;
+import com.example.is_coursework.dto.responses.FactResponse;
 import com.example.is_coursework.models.Character;
+import com.example.is_coursework.models.*;
 import com.example.is_coursework.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,8 +63,8 @@ public class CharacterService {
         character.setEquipment(equipment);
         character.setBag(bag);
 
-        User user = userRepository.findByLogin(username);
-        character.setUser(user);
+        Optional<User> user = userRepository.findUserByLogin(username);
+        character.setUser(user.orElseThrow());
         characterRepository.save(character);
 
         return toCharacterResponse(character);
