@@ -15,5 +15,9 @@ public class RoomMessage {
 
     private String joinCode;
 
+    private Boolean isStarted;
+
+    private Boolean isClosed;
+
     private List<CharacterPrivateMessage> characters;
 }

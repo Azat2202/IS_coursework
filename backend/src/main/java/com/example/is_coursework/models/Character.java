@@ -81,4 +81,10 @@ public class Character {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id")
     private OpenedFacts openedFacts;
+
+
+    public Boolean validateChoosable() {
+        return bodyType != null && health != null && trait != null && hobby != null && profession != null && phobia != null && equipment != null && bag != null;
+    }
+
 }

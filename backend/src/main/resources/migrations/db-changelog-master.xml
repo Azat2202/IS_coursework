@@ -9,5 +9,6 @@
     <include file="migrations/db-changelog-3.0.xml"/>
     <include file="migrations/db-changelog-4.0.xml"/>
     <include file="migrations/db-changelog-5.0.xml"/>
-    <include file="migrations/db-changelog-6.0.sql"/>
+    <include file="migrations/db-changelog-6.0.xml"/>
+    <include file="migrations/db-changelog-7.0.sql"/>
 </databaseChangeLog>

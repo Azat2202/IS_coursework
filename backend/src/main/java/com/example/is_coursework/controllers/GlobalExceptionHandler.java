@@ -1,4 +1,4 @@
-package com.example.is_coursework.controllers.exceptonHandlers;
+package com.example.is_coursework.controllers;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +89,11 @@ public class GlobalExceptionHandler {
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, exception.getMessage());
         errorDetail.setProperty("description", "The JWT token is invalid");
         return errorDetail;
+    }
+
+    @ExceptionHandler({ HttpClientErrorException.class })
+    public ProblemDetail malformedJwtException(final HttpClientErrorException exception) {
+        return ProblemDetail.forStatusAndDetail(exception.getStatusCode(), exception.getMessage());
     }
 
     @ExceptionHandler({ Exception.class })
