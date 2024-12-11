@@ -67,4 +67,8 @@ public class Character {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bag_id")
     private Bag bag;
+
+    public Boolean validateChoosable() {
+        return bodyType != null && health != null && trait != null && hobby != null && profession != null && phobia != null && equipment != null && bag != null;
+    }
 }

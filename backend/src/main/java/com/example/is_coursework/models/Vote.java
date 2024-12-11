@@ -3,7 +3,7 @@ package com.example.is_coursework.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "votes")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -27,6 +27,7 @@ public class Vote {
     @JoinColumn(name = "target_character_id", nullable = false)
     private Character targetCharacter;
 
-    @Column(nullable = false)
-    private Integer roundNumber;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "poll_id", nullable = false)
+    private Poll poll;
 }
