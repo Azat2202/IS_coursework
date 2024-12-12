@@ -36,10 +36,6 @@ public class CharacterService {
         GenerateFactRequest generateFactRequest = new GenerateFactRequest();
         generateFactRequest.setRoomId(characterRequest.getRoomId());
         GenerateFactResponse testGenerate = generateFact(user, generateFactRequest);
-//        if (user.getLogin().hashCode() + characterRequest.getRoomId().hashCode() != characterRequest.getCheckHash()) {
-////            int res = user.getLogin().hashCode() + characterRequest.getRoomId().hashCode();
-//            throw new IllegalArgumentException("Wrong user or room");// got: " + res + "want" + characterRequest.getCheckHash());
-//        }
 
         // Проверка наличия значений в сгенерированном ответе
         if (!testGenerate.getBodyTypes().stream().anyMatch(bt -> bt.getId().equals(characterRequest.getBodyTypeId()))) {
