@@ -4,6 +4,8 @@ import com.example.is_coursework.models.*;
 import com.example.is_coursework.models.enums.SexType;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CharacterPrivateMessage {
     private Long id;
@@ -19,4 +21,6 @@ public class CharacterPrivateMessage {
     private Boolean isActive;
 
     private User user;
+
+    private OpenedFacts openedFacts;
 }

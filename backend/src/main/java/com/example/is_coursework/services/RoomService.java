@@ -61,7 +61,6 @@ public class RoomService {
         Cataclysm cataclysm = allCataclysms.get(random.nextInt(allCataclysms.size()));
         Set<Long> equipmentIds = RandomHelper.getRandomList(random, 2, 0, allEquipments.size());
         String joinCode = RandomHelper.getRandomStringUppercase(random, 6);
-        Character character = generateBaseCharacter(user);
         Bunker bunker = Bunker.builder()
                 .foodDays(random.nextInt(minFoodDays, maxFoodDays))
                 .stayDays(random.nextInt(minStayDays, maxStayDays))
@@ -76,13 +75,11 @@ public class RoomService {
                 .cataclysm(cataclysm)
                 .bunker(bunker)
                 .joinCode(joinCode)
-                .characters(List.of(character))
                 .admin(user)
                 .isStarted(false)
                 .isClosed(false)
                 .build();
 
-        characterRepository.save(character);
         bunkerRepository.save(bunker);
         roomRepository.save(room);
 
