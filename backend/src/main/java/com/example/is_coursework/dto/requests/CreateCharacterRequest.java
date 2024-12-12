@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CharacterRequest {
+public class CreateCharacterRequest {
     @NotNull
     @NotBlank
     @NotEmpty
@@ -24,9 +24,6 @@ public class CharacterRequest {
 
     @NotNull
     private Boolean isActive;
-
-    @NotNull
-    private Long userId;
 
     @NotNull
     private Long bodyTypeId;
@@ -51,5 +48,8 @@ public class CharacterRequest {
 
     @NotNull
     private Long bagId;
+
+    @NotNull
+    private Long roomId;
 }
 
