@@ -27,4 +27,5 @@ public class CharacterResponse {
     private Phobia phobia;
     private Equipment equipment;
     private Bag bag;
+    private OpenedFacts openedFacts;
 }

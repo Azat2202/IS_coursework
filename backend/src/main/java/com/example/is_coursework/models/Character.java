@@ -4,6 +4,8 @@ import com.example.is_coursework.models.enums.SexType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity(name = "characters")
 @NoArgsConstructor
 @Getter
@@ -67,4 +69,16 @@ public class Character {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bag_id")
     private Bag bag;
+
+    @ManyToMany
+    @JoinTable(
+            name = "character_in_room",
+            joinColumns = @JoinColumn(name = "character_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
+    private List<Room> room;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private OpenedFacts openedFacts;
 }

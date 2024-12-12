@@ -31,7 +31,7 @@ public class CharacterService {
     private final EquipmentRepository equipmentRepository;
     private final OpenFactsRepository openFactsRepository;
 
-    @Transactional
+//    @Transactional
     public CharacterResponse createCharacter(CreateCharacterRequest characterRequest, User user) {
         GenerateFactRequest generateFactRequest = new GenerateFactRequest();
         generateFactRequest.setRoomId(characterRequest.getRoomId());
@@ -88,7 +88,15 @@ public class CharacterService {
             throw new IllegalArgumentException("Characteristics must be balanced.");
         }
 
-        Character character = toCharacter(characterRequest);
+        Character character = characterRepository.findByRoomIdAndUser(characterRequest.getRoomId(), user).orElseThrow(
+                () -> new IllegalArgumentException("Character not found")
+        );
+//        character = toCharacter(characterRequest);
+        character.setAge(characterRequest.getAge());
+        character.setName(characterRequest.getName());
+        character.setNotes(characterRequest.getNotes());
+        character.setIsActive(characterRequest.getIsActive());
+        character.setSex(characterRequest.getSex());
         character.setBodyType(bodyType);
         character.setHealth(health);
         character.setTrait(trait);
@@ -97,12 +105,14 @@ public class CharacterService {
         character.setPhobia(phobia);
         character.setEquipment(equipment);
         character.setBag(bag);
-
         character.setUser(user);
-        characterRepository.save(character);
-        OpenedFacts openedFacts = OpenedFacts.builder().character_id(character.getId()).build();
-        openFactsRepository.save(openedFacts);
 
+        OpenedFacts openedFacts = OpenedFacts.builder().character_id(character.getId()).build();
+
+        character.setOpenedFacts(openedFacts);
+
+        characterRepository.save(character);
+        openFactsRepository.save(openedFacts);
         return toCharacterResponse(character);
     }
 

@@ -46,4 +46,7 @@ public class Room {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "admin", nullable = false)
     private User admin;
+
+    @OneToMany(mappedBy = "character_id", fetch = FetchType.LAZY)
+    private List<OpenedFacts> openFacts;
 }

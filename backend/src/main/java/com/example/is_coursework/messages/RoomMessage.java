@@ -1,5 +1,6 @@
 package com.example.is_coursework.messages;
 
+import com.example.is_coursework.models.OpenedFacts;
 import lombok.Data;
 
 import java.util.List;
