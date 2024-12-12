@@ -1,5 +1,6 @@
 package com.example.is_coursework.services;
 
+import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.GenerateFactRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
 import com.example.is_coursework.dto.responses.CharacterResponse;
@@ -32,10 +33,41 @@ public class CharacterService {
 
     @Transactional
     public CharacterResponse createCharacter(CreateCharacterRequest characterRequest, User user) {
-        if (user.getLogin().hashCode() + characterRequest.getRoomId().hashCode() != characterRequest.getCheckHash()) {
-//            int res = user.getLogin().hashCode() + characterRequest.getRoomId().hashCode();
-            throw new IllegalArgumentException("Wrong user or room");// got: " + res + "want" + characterRequest.getCheckHash());
+        GenerateFactRequest generateFactRequest = new GenerateFactRequest();
+        generateFactRequest.setRoomId(characterRequest.getRoomId());
+        GenerateFactResponse testGenerate = generateFact(user, generateFactRequest);
+//        if (user.getLogin().hashCode() + characterRequest.getRoomId().hashCode() != characterRequest.getCheckHash()) {
+////            int res = user.getLogin().hashCode() + characterRequest.getRoomId().hashCode();
+//            throw new IllegalArgumentException("Wrong user or room");// got: " + res + "want" + characterRequest.getCheckHash());
+//        }
+
+        // Проверка наличия значений в сгенерированном ответе
+        if (!testGenerate.getBodyTypes().stream().anyMatch(bt -> bt.getId().equals(characterRequest.getBodyTypeId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
         }
+        if (!testGenerate.getHealths().stream().anyMatch(h -> h.getId().equals(characterRequest.getHealthId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getTraits().stream().anyMatch(t -> t.getId().equals(characterRequest.getTraitId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getHobbies().stream().anyMatch(hb -> hb.getId().equals(characterRequest.getHobbyId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getProfessions().stream().anyMatch(p -> p.getId().equals(characterRequest.getProfessionId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getPhobiases().stream().anyMatch(ph -> ph.getId().equals(characterRequest.getPhobiaId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getEquipments().stream().anyMatch(e -> e.getId().equals(characterRequest.getEquipmentId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+        if (!testGenerate.getBags().stream().anyMatch(b -> b.getId().equals(characterRequest.getBagId()))) {
+            throw new IllegalArgumentException("Wrong user or room");
+        }
+
+
         BodyType bodyType = bodyTypeRepository.findById(characterRequest.getBodyTypeId()).orElseThrow(
                 () -> new IllegalArgumentException("BodyType not found"));
         Health health = healthRepository.findById(characterRequest.getHealthId()).orElseThrow(
@@ -240,7 +272,6 @@ public class CharacterService {
                 .phobiases(phobias)
                 .professions(professions)
                 .traits(traits)
-                .checkHash(checkHash)
                 .build();
     }
 

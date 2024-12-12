@@ -1,5 +1,6 @@
 package com.example.is_coursework.controllers;
 
+import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.GenerateFactRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
 import com.example.is_coursework.dto.responses.FactResponse;
@@ -29,7 +30,7 @@ public class CharacterController {
         return characterService.getCharacterById(id);
     }
 
-    @GetMapping("/open_fact/{character_id}/{factType}")
+    @PostMapping("/open_fact/{character_id}/{factType}")
     public FactResponse openFact(@PathVariable Long character_id, @PathVariable FactType factType) {
         return characterService.openFact(character_id, factType);
     }
@@ -39,7 +40,7 @@ public class CharacterController {
         return characterService.getOpenFacts(openedFactsRequest);
     }
 
-    @GetMapping("/generate_facts")
+    @PostMapping("/generate_facts")
     public GenerateFactResponse generateFact(@CurrentUser User user, GenerateFactRequest generateFactRequest) {
         return characterService.generateFact(user, generateFactRequest);
     }

@@ -21,5 +21,4 @@ public class GenerateFactResponse {
     private List<Phobia> phobiases;
     private List<Profession> professions;
     private List<Trait> traits;
-    private Integer checkHash;
 }

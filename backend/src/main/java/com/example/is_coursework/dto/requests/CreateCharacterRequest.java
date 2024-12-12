@@ -50,9 +50,6 @@ public class CreateCharacterRequest {
     private Long bagId;
 
     @NotNull
-    private Integer checkHash;
-
-    @NotNull
     private Long roomId;
 }
 
