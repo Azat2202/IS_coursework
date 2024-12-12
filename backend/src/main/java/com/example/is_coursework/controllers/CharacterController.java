@@ -30,7 +30,7 @@ public class CharacterController {
         return characterService.getCharacterById(id);
     }
 
-    @PostMapping("/open_fact/{character_id}/{factType}")
+    @PutMapping("/open_fact/{character_id}/{factType}")
     public FactResponse openFact(@PathVariable Long character_id, @PathVariable FactType factType) {
         return characterService.openFact(character_id, factType);
     }
@@ -40,7 +40,7 @@ public class CharacterController {
         return characterService.getOpenFacts(openedFactsRequest);
     }
 
-    @PostMapping("/generate_facts")
+    @PutMapping("/generate_facts")
     public GenerateFactResponse generateFact(@CurrentUser User user, GenerateFactRequest generateFactRequest) {
         return characterService.generateFact(user, generateFactRequest);
     }
