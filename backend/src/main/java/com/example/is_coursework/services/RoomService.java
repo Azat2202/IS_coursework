@@ -10,8 +10,10 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.webjars.NotFoundException;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoomService {
+    private final OpenFactsRepository openFactsRepository;
     @Value("${game.generation.min_food_days}")
     private int minFoodDays;
 
@@ -70,6 +73,7 @@ public class RoomService {
                                         equipment.getId())
                         ).toList())
                 .build();
+        Character character = characterRepository.save(generateBaseCharacter(user));
         Room room = Room.builder()
                 .cataclysm(cataclysm)
                 .bunker(bunker)
@@ -77,11 +81,11 @@ public class RoomService {
                 .admin(user)
                 .isStarted(false)
                 .isClosed(false)
+                .characters(List.of(character))
                 .build();
 
         bunkerRepository.save(bunker);
         roomRepository.save(room);
-
         return modelMapper.map(room, RoomMessage.class);
     }
 
@@ -102,15 +106,16 @@ public class RoomService {
         if (room.getCharacters()
                 .stream()
                 .anyMatch(character -> character.getUser().equals(user))) {
-            throw new AccessDeniedException("You are already in this room");
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "You are already in this room");
         }
         if (room.getCharacters().size() >= maxUserInRoomCount) {
-            throw new AccessDeniedException("Room is full");
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN,"Room is full");
         }
         Character character = generateBaseCharacter(user);
-        characterRepository.save(character);
+        character = characterRepository.save(character);
         room.getCharacters().add(character);
         roomRepository.save(room);
+        openFactsRepository.save(OpenedFacts.builder().character_id(character.getId()).build());
         return modelMapper.map(room, RoomMessage.class);
     }
 

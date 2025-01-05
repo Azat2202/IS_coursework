@@ -1,8 +1,10 @@
 package com.example.is_coursework.models;
 
+import com.example.is_coursework.messages.CharacterPrivateMessage;
 import com.example.is_coursework.messages.PollMessage;
 import jakarta.persistence.*;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -50,12 +52,13 @@ public class Poll {
     }
 
     public PollMessage toPollMessage() {
+        ModelMapper modelMapper = new ModelMapper();
         PollMessage pollMessage = PollMessage.builder()
                 .id(id)
                 .roundNumber(roundNumber)
                 .creationTime(creationTime)
                 .isOpen(isOpen)
-                .targetCharacter(targetCharacter)
+                .targetCharacter(modelMapper.map(targetCharacter, CharacterPrivateMessage.class))
                 .build();
         if (!isOpen) {
             pollMessage = pollMessage.toBuilder().votes(votes.stream().map(Vote::toVoteMessage).toList()).build();

@@ -1,8 +1,10 @@
 package com.example.is_coursework.models;
 
+import com.example.is_coursework.messages.CharacterPrivateMessage;
 import com.example.is_coursework.messages.VoteMessage;
 import jakarta.persistence.*;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 @Entity(name = "votes")
 @NoArgsConstructor
@@ -34,9 +36,10 @@ public class Vote {
     private Poll poll;
 
     public VoteMessage toVoteMessage(){
+        ModelMapper modelMapper = new ModelMapper();
         return VoteMessage.builder()
                 .id(id)
-                .targetCharacter(targetCharacter)
+                .targetCharacter(modelMapper.map(targetCharacter, CharacterPrivateMessage.class))
                 .build();
     }
 }
