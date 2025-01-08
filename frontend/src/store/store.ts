@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
+import roomReducer from './roomSlice'
 import { api } from "./baseApi";
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
+        room: roomReducer,
         [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>

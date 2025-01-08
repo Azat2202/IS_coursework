@@ -9,7 +9,7 @@ import './index.css';
 import {Provider} from "react-redux";
 import store from "./store/store";
 import {Toaster} from "react-hot-toast";
-// import {AuthProvider} from "react-oidc-context";
+import {AuthProvider} from "react-oidc-context";
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
@@ -18,15 +18,19 @@ const root = ReactDOM.createRoot(
 const oidcConfig = {
     authority: "http://localhost:8484/realms/bunker",
     client_id: "bunker",
-    redirect_uri: "http://localhost:3000/logincreds",
+    redirect_uri: "http://localhost:3000/main",
     onSigninCallback: () => {
-        window.history.pushState({}, "", "/logincreds");
+        window.history.pushState({}, "", "/main");
     }
+}
+
+const appConfig = {
+
 }
 
 root.render(
     <React.StrictMode>
-        {/*<AuthProvider {...oidcConfig}>*/}
+        <AuthProvider {...oidcConfig}>
             <Toaster/>
             <ApiProvider api={api}>
                 <Provider store={store}>
@@ -35,7 +39,7 @@ root.render(
                     </BrowserRouter>
                 </Provider>
             </ApiProvider>
-        {/*</AuthProvider>*/}
+        </AuthProvider>
     </React.StrictMode>
 );
 

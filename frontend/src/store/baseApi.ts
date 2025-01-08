@@ -4,6 +4,7 @@
 // initialize an empty api service that we'll inject endpoints into later as needed
 import {BaseQueryApi, createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {RootState} from "./store";
+import {useAuth} from "react-oidc-context";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:8080/',

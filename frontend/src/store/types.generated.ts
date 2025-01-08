@@ -7,13 +7,6 @@ const injectedRtkApi = api.injectEndpoints({
         method: "PUT",
       }),
     }),
-    generateFact: build.mutation<GenerateFactApiResponse, GenerateFactApiArg>({
-      query: (queryArg) => ({
-        url: `/api/characters/generate_facts`,
-        method: "PUT",
-        params: { generateFactRequest: queryArg.generateFactRequest },
-      }),
-    }),
     vote: build.mutation<VoteApiResponse, VoteApiArg>({
       query: (queryArg) => ({
         url: `/api/room/${queryArg.roomId}/vote`,
@@ -82,6 +75,11 @@ const injectedRtkApi = api.injectEndpoints({
         params: { openedFactsRequest: queryArg.openedFactsRequest },
       }),
     }),
+    generateFact: build.query<GenerateFactApiResponse, GenerateFactApiArg>({
+      query: (queryArg) => ({
+        url: `/api/characters/generate_facts/${queryArg.roomId}`,
+      }),
+    }),
     getAllRooms: build.query<GetAllRoomsApiResponse, GetAllRoomsApiArg>({
       query: () => ({ url: `/api/admin/rooms` }),
     }),
@@ -101,10 +99,6 @@ export type OpenFactApiArg = {
     | "PHOBIA"
     | "EQUIPMENT"
     | "BAG";
-};
-export type GenerateFactApiResponse = /** status 200 OK */ GenerateFactResponse;
-export type GenerateFactApiArg = {
-  generateFactRequest: GenerateFactRequest;
 };
 export type VoteApiResponse = /** status 200 OK */ PollMessage;
 export type VoteApiArg = {
@@ -150,63 +144,14 @@ export type GetOpenedFactsApiResponse = /** status 200 OK */ OpenFactsResponse;
 export type GetOpenedFactsApiArg = {
   openedFactsRequest: OpenedFactsRequest;
 };
+export type GenerateFactApiResponse = /** status 200 OK */ GenerateFactResponse;
+export type GenerateFactApiArg = {
+  roomId: number;
+};
 export type GetAllRoomsApiResponse = /** status 200 OK */ RoomMessage[];
 export type GetAllRoomsApiArg = void;
 export type FactResponse = {
   name?: string;
-};
-export type Bag = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type BodyType = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Equipment = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Health = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Hobby = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Phobia = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Profession = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type Trait = {
-  id?: number;
-  name?: string;
-  level?: number;
-};
-export type GenerateFactResponse = {
-  bags?: Bag[];
-  bodyTypes?: BodyType[];
-  equipments?: Equipment[];
-  healths?: Health[];
-  hobbies?: Hobby[];
-  phobiases?: Phobia[];
-  professions?: Profession[];
-  traits?: Trait[];
-};
-export type GenerateFactRequest = {
-  roomId: number;
 };
 export type User = {
   id?: number;
@@ -271,6 +216,46 @@ export type RoomMessage = {
   isClosed?: boolean;
   characters?: CharacterPrivateMessage[];
 };
+export type BodyType = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Health = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Trait = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Hobby = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Profession = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Phobia = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Equipment = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
+export type Bag = {
+  id?: number;
+  name?: string;
+  level?: number;
+};
 export type CharacterResponse = {
   id?: number;
   name?: string;
@@ -319,9 +304,18 @@ export type OpenFactsResponse = {
 export type OpenedFactsRequest = {
   characterId: number;
 };
+export type GenerateFactResponse = {
+  bags?: Bag[];
+  bodyTypes?: BodyType[];
+  equipments?: Equipment[];
+  healths?: Health[];
+  hobbies?: Hobby[];
+  phobiases?: Phobia[];
+  professions?: Profession[];
+  traits?: Trait[];
+};
 export const {
   useOpenFactMutation,
-  useGenerateFactMutation,
   useVoteMutation,
   useStartGameMutation,
   useCreatePoolMutation,
@@ -334,5 +328,6 @@ export const {
   useGetApiMeQuery,
   useGetCharacterByIdQuery,
   useGetOpenedFactsQuery,
+  useGenerateFactQuery,
   useGetAllRoomsQuery,
 } = injectedRtkApi;
