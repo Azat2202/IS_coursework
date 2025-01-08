@@ -1,7 +1,6 @@
 package com.example.is_coursework.services;
 
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
-import com.example.is_coursework.dto.requests.GenerateFactRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
 import com.example.is_coursework.dto.responses.CharacterResponse;
 import com.example.is_coursework.dto.responses.FactResponse;
@@ -13,9 +12,10 @@ import com.example.is_coursework.models.enums.FactType;
 import com.example.is_coursework.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +33,7 @@ public class CharacterService {
 
 //    @Transactional
     public CharacterResponse createCharacter(CreateCharacterRequest characterRequest, User user) {
-        GenerateFactRequest generateFactRequest = new GenerateFactRequest();
-        generateFactRequest.setRoomId(characterRequest.getRoomId());
-        GenerateFactResponse testGenerate = generateFact(user, generateFactRequest);
+        GenerateFactResponse testGenerate = generateFact(user, characterRequest.getRoomId());
 
         // Проверка наличия значений в сгенерированном ответе
         if (!testGenerate.getBodyTypes().stream().anyMatch(bt -> bt.getId().equals(characterRequest.getBodyTypeId()))) {
@@ -201,9 +199,9 @@ public class CharacterService {
         return response;
     }
 
-    public GenerateFactResponse generateFact(User user, GenerateFactRequest generateFactRequest) {
+    public GenerateFactResponse generateFact(User user, Long generateFactRequest) {
 
-        int checkHash = user.getLogin().hashCode() + generateFactRequest.getRoomId().hashCode();
+        int checkHash = user.getLogin().hashCode() + generateFactRequest.hashCode();
         Random random = new Random(checkHash);
 
         List<Bag> bags = new ArrayList<>();

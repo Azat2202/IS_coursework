@@ -1,10 +1,9 @@
 package com.example.is_coursework.controllers;
 
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
-import com.example.is_coursework.dto.requests.GenerateFactRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
-import com.example.is_coursework.dto.responses.FactResponse;
 import com.example.is_coursework.dto.responses.CharacterResponse;
+import com.example.is_coursework.dto.responses.FactResponse;
 import com.example.is_coursework.dto.responses.GenerateFactResponse;
 import com.example.is_coursework.dto.responses.OpenFactsResponse;
 import com.example.is_coursework.interfaces.CurrentUser;
@@ -44,8 +43,8 @@ public class CharacterController {
         return characterService.getOpenFacts(openedFactsRequest);
     }
 
-    @PutMapping("/generate_facts")
-    public GenerateFactResponse generateFact(@CurrentUser User user, GenerateFactRequest generateFactRequest) {
-        return characterService.generateFact(user, generateFactRequest);
+    @GetMapping("/generate_facts/{roomId}")
+    public GenerateFactResponse generateFact(@CurrentUser User user, @PathVariable Long roomId) {
+        return characterService.generateFact(user, roomId);
     }
 }
