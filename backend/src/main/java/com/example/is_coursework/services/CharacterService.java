@@ -1,11 +1,9 @@
 package com.example.is_coursework.services;
 
+import com.example.is_coursework.dto.requests.AllFactsRequest;
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
-import com.example.is_coursework.dto.responses.CharacterResponse;
-import com.example.is_coursework.dto.responses.FactResponse;
-import com.example.is_coursework.dto.responses.GenerateFactResponse;
-import com.example.is_coursework.dto.responses.OpenFactsResponse;
+import com.example.is_coursework.dto.responses.*;
 import com.example.is_coursework.models.Character;
 import com.example.is_coursework.models.*;
 import com.example.is_coursework.models.enums.FactType;
@@ -171,11 +169,11 @@ public class CharacterService {
         return response;
     }
 
-    public OpenFactsResponse getOpenFacts(OpenedFactsRequest openedFactsRequest) {
+    public OpenedFactsResponse getOpenFacts(OpenedFactsRequest openedFactsRequest) {
         Long characterId = openedFactsRequest.getCharacterId();
 
         OpenedFacts openedFacts = openFactsRepository.findById(characterId).orElseThrow();
-        OpenFactsResponse response = OpenFactsResponse.builder().build();
+        OpenedFactsResponse response = OpenedFactsResponse.builder().build();
         if (openedFacts.getBag() != null) {
             response.setBag(openFact(characterId, FactType.BAG).getName());
         }
@@ -201,6 +199,26 @@ public class CharacterService {
             response.setEquipment(openFact(characterId, FactType.EQUIPMENT).getName());
         }
         return response;
+    }
+
+    public AllFactsResponse getAllFacts(AllFactsRequest allFactsRequest) {
+        Long characterId = allFactsRequest.getCharacterId();
+
+        Character character = characterRepository.findById(characterId).orElseThrow();
+        return AllFactsResponse.builder()
+                .name(character.getName())
+                .age(character.getAge() != null ? character.getAge().toString() : null)
+                .sex(character.getSex() != null ? character.getSex().toString() : null)
+                .bag(character.getBag() != null ? character.getBag().getName() : null)
+                .bodyType(character.getBodyType() != null ? character.getBodyType().getName() : null)
+                .equipment(character.getEquipment() != null ? character.getEquipment().getName() : null)
+                .health(character.getHealth() != null ? character.getHealth().getName() : null)
+                .hobby(character.getHobby() != null ? character.getHobby().getName() : null)
+                .phobia(character.getPhobia() != null ? character.getPhobia().getName() : null)
+                .profession(character.getProfession() != null ? character.getProfession().getName() : null)
+                .trait(character.getTrait() != null ? character.getTrait().getName() : null)
+                .notes(character.getNotes())
+                .build();
     }
 
     public GenerateFactResponse generateFact(User user, Long generateFactRequest) {

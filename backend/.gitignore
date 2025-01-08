@@ -141,3 +141,4 @@ buildNumber.properties
 
 .env
 .idea
+liquibase.properties

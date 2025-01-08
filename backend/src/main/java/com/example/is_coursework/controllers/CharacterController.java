@@ -1,11 +1,9 @@
 package com.example.is_coursework.controllers;
 
+import com.example.is_coursework.dto.requests.AllFactsRequest;
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
-import com.example.is_coursework.dto.responses.CharacterResponse;
-import com.example.is_coursework.dto.responses.FactResponse;
-import com.example.is_coursework.dto.responses.GenerateFactResponse;
-import com.example.is_coursework.dto.responses.OpenFactsResponse;
+import com.example.is_coursework.dto.responses.*;
 import com.example.is_coursework.interfaces.CurrentUser;
 import com.example.is_coursework.models.User;
 import com.example.is_coursework.models.enums.FactType;
@@ -39,8 +37,13 @@ public class CharacterController {
     }
 
     @GetMapping("/get_opened")
-    public OpenFactsResponse getOpenedFacts(OpenedFactsRequest openedFactsRequest) {
+    public OpenedFactsResponse getOpenedFacts(OpenedFactsRequest openedFactsRequest) {
         return characterService.getOpenFacts(openedFactsRequest);
+    }
+
+    @GetMapping("/get_all_facts")
+    public AllFactsResponse getAllFacts(AllFactsRequest allFactsRequest) {
+        return characterService.getAllFacts(allFactsRequest);
     }
 
     @GetMapping("/generate_facts/{roomId}")
