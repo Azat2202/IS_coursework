@@ -11,7 +11,7 @@ export const App: React.FC = () => {
         <Routes>
             <Route path={"/"} element={<LandingPage/>}/>
             <Route path={"/main/*"} element={<PrivateRoute><MainPage/></PrivateRoute>}/>
-            <Route path={"/room"} element={<PrivateRoute><RoomPage/></PrivateRoute>}/>
+            <Route path={"/room/:roomId"} element={<PrivateRoute><RoomPage/></PrivateRoute>}/>
             <Route path={"/*"} element={<ErrorPage/>}/>
         </Routes>
     );

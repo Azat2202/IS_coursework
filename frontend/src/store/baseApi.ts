@@ -5,11 +5,23 @@
 import {BaseQueryApi, createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {RootState} from "./store";
 import {useAuth} from "react-oidc-context";
+import {User} from "oidc-client-ts";
+import {appConfig} from "../index";
+
+function getUser() {
+    const oidcStorage = localStorage.getItem(appConfig.localStoragePath);
+    if (!oidcStorage) {
+        return null;
+    }
+
+    return User.fromStorageString(oidcStorage);
+}
+
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:8080/',
-    prepareHeaders: (headers, {getState}) => {
-        const token = (getState() as RootState).auth.token; // Assuming you store the token in your auth slice
+    prepareHeaders: (headers, {}) => {
+        const token = getUser()?.access_token
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
@@ -17,17 +29,6 @@ const baseQuery = fetchBaseQuery({
     },
 
 });
-
-// const baseQueryWithErrorHandling = async (args, api, extraOptions)=> {
-//   const result = await baseQuery(args, api, extraOptions);
-//
-//   if (result.error) {
-//     // Handle the error globally
-//     console.error('Global error:', result.error);
-//   }
-//
-//   return result;
-// };
 
 export const api = createApi({
     baseQuery: baseQuery,

@@ -1,15 +1,17 @@
 import {FormEvent, useState} from "react";
 import toast from "react-hot-toast";
 import {useCreateRoomMutation, useJoinRoomMutation} from "../../store/types.generated";
+import {useNavigate} from "react-router-dom";
 
 export function MainPage() {
     const [code, setCode] = useState("")
     const [createRoom] = useCreateRoomMutation()
     const [joinRoom] = useJoinRoomMutation()
+    const navigate = useNavigate()
 
     async function createGame() {
         createRoom().unwrap()
-            .then(() => window.history.pushState({}, "", "/room"))
+            .then(response => navigate(`/room/${response.id}`))
             .catch(() => toast.error("Создать комнату не удалось..."))
     }
 
@@ -20,7 +22,7 @@ export function MainPage() {
             return
         }
         await joinRoom({joinCode: code}).unwrap()
-            .then(() => window.history.pushState({}, "", "/room"))
+            .then(response => navigate(`/room/${response.id}`))
             .catch(() => toast.error("Такой комнаты не существует либо игра уже началась!"))
     }
 

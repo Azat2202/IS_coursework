@@ -10,6 +10,7 @@ import {Provider} from "react-redux";
 import store from "./store/store";
 import {Toaster} from "react-hot-toast";
 import {AuthProvider} from "react-oidc-context";
+import {WebStorageStateStore} from "oidc-client-ts";
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
@@ -21,11 +22,14 @@ const oidcConfig = {
     redirect_uri: "http://localhost:3000/main",
     onSigninCallback: () => {
         window.history.pushState({}, "", "/main");
-    }
+    },
+    userStore: new WebStorageStateStore({
+        store: localStorage
+    }),
 }
 
-const appConfig = {
-
+export const appConfig = {
+    localStoragePath: "oidc.user:http://localhost:8484/realms/bunker:bunker"
 }
 
 root.render(

@@ -7,8 +7,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 In the project directory, you can run:
 
 todo: 
-- [ ] проверить OAuth
-- [ ] передавать номер комнаты в URL ("/room/12345")
+- [x] проверить OAuth
+- [x] передавать номер комнаты в URL ("/room/12345")
 - [ ] исправить передачу auth key в baseApi
 - [ ] передавать roomId в стейте
 
