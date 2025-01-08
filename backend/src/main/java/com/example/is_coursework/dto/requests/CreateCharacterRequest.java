@@ -1,6 +1,5 @@
 package com.example.is_coursework.dto.requests;
 
-import com.example.is_coursework.models.enums.SexType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,16 +13,7 @@ public class CreateCharacterRequest {
     private String name;
 
     @NotNull
-    private Integer age;
-
-    @NotNull
-    private SexType sex;
-
-    @NotNull
     private String notes;
-
-    @NotNull
-    private Boolean isActive;
 
     @NotNull
     private Long bodyTypeId;

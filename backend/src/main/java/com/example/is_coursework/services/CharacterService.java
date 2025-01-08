@@ -9,6 +9,7 @@ import com.example.is_coursework.dto.responses.OpenFactsResponse;
 import com.example.is_coursework.models.Character;
 import com.example.is_coursework.models.*;
 import com.example.is_coursework.models.enums.FactType;
+import com.example.is_coursework.models.enums.SexType;
 import com.example.is_coursework.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -89,12 +90,15 @@ public class CharacterService {
         Character character = characterRepository.findByRoomIdAndUser(characterRequest.getRoomId(), user).orElseThrow(
                 () -> new IllegalArgumentException("Character not found")
         );
-//        character = toCharacter(characterRequest);
-        character.setAge(characterRequest.getAge());
+        Random random = new Random();
+        int age = random.nextInt(100 - 15 + 1) + 15;
+        int sex_num = random.nextInt(2);
+        SexType sex = sex_num == 0 ? SexType.FEMALE : SexType.MALE;
+        character.setAge(age);
         character.setName(characterRequest.getName());
         character.setNotes(characterRequest.getNotes());
-        character.setIsActive(characterRequest.getIsActive());
-        character.setSex(characterRequest.getSex());
+        character.setIsActive(true);
+        character.setSex(sex);
         character.setBodyType(bodyType);
         character.setHealth(health);
         character.setTrait(trait);
@@ -296,16 +300,6 @@ public class CharacterService {
                 .trait(character.getTrait())
                 .equipment(character.getEquipment())
                 .hobby(character.getHobby())
-                .build();
-    }
-
-    private Character toCharacter(CreateCharacterRequest characterRequest) {
-        return Character.builder()
-                .age(characterRequest.getAge())
-                .name(characterRequest.getName())
-                .notes(characterRequest.getNotes())
-                .isActive(characterRequest.getIsActive())
-                .sex(characterRequest.getSex())
                 .build();
     }
 }
