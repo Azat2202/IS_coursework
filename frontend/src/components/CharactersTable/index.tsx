@@ -15,7 +15,7 @@ export function CharactersTable({roomData, canOpen}: { roomData?: RoomMessage, c
         ?.openedFacts
     const [openFact] = useOpenFactMutation()
 
-    return <div>
+    return <div className={"text-burgundy-200"}>
         <table className={"table-auto border border-black border-collapse"}>
             <thead>
             <tr>

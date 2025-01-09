@@ -1,7 +1,7 @@
 import {RoomMessage} from "../../store/types.generated";
 
 export function BunkerInformation({roomData}: {roomData?: RoomMessage}) {
-    return <div>
+    return <div className={"text-burgundy-200"}>
         <p>{roomData?.cataclysm?.description}</p>
         <p>Вы находитесь в бункере в котором:</p>
         <ul>
