@@ -75,6 +75,11 @@ const injectedRtkApi = api.injectEndpoints({
         params: { openedFactsRequest: queryArg.openedFactsRequest },
       }),
     }),
+    getAllFacts: build.query<GetAllFactsApiResponse, GetAllFactsApiArg>({
+      query: (queryArg) => ({
+        url: `/api/characters/get_all_facts/${queryArg.characterId}`,
+      }),
+    }),
     generateFact: build.query<GenerateFactApiResponse, GenerateFactApiArg>({
       query: (queryArg) => ({
         url: `/api/characters/generate_facts/${queryArg.roomId}`,
@@ -140,9 +145,14 @@ export type GetCharacterByIdApiResponse =
 export type GetCharacterByIdApiArg = {
   id: number;
 };
-export type GetOpenedFactsApiResponse = /** status 200 OK */ OpenFactsResponse;
+export type GetOpenedFactsApiResponse =
+  /** status 200 OK */ OpenedFactsResponse;
 export type GetOpenedFactsApiArg = {
   openedFactsRequest: OpenedFactsRequest;
+};
+export type GetAllFactsApiResponse = /** status 200 OK */ AllFactsResponse;
+export type GetAllFactsApiArg = {
+  characterId: number;
 };
 export type GenerateFactApiResponse = /** status 200 OK */ GenerateFactResponse;
 export type GenerateFactApiArg = {
@@ -173,7 +183,9 @@ export type CharacterPrivateMessage = {
   id?: number;
   name?: string;
   age?: number;
-  sex?: "MALE" | "FEMALE";
+  sex?:
+    | "\u041C\u0443\u0436\u0447\u0438\u043D\u0430"
+    | "\u0416\u0435\u043D\u0449\u0438\u043D\u0430";
   notes?: string;
   isActive?: boolean;
   user?: User;
@@ -260,7 +272,9 @@ export type CharacterResponse = {
   id?: number;
   name?: string;
   age?: number;
-  sex?: "MALE" | "FEMALE";
+  sex?:
+    | "\u041C\u0443\u0436\u0447\u0438\u043D\u0430"
+    | "\u0416\u0435\u043D\u0449\u0438\u043D\u0430";
   notes?: string;
   isActive?: boolean;
   user?: User;
@@ -276,10 +290,7 @@ export type CharacterResponse = {
 };
 export type CreateCharacterRequest = {
   name: string;
-  age: number;
-  sex: "MALE" | "FEMALE";
   notes: string;
-  isActive: boolean;
   bodyTypeId: number;
   healthId: number;
   traitId: number;
@@ -290,7 +301,7 @@ export type CreateCharacterRequest = {
   bagId: number;
   roomId: number;
 };
-export type OpenFactsResponse = {
+export type OpenedFactsResponse = {
   bag?: string;
   bodyType?: string;
   equipment?: string;
@@ -299,10 +310,23 @@ export type OpenFactsResponse = {
   phobia?: string;
   profession?: string;
   trait?: string;
-  checkHash?: string;
 };
 export type OpenedFactsRequest = {
   characterId: number;
+};
+export type AllFactsResponse = {
+  name?: string;
+  age?: string;
+  sex?: string;
+  bag?: string;
+  bodyType?: string;
+  equipment?: string;
+  health?: string;
+  hobby?: string;
+  phobia?: string;
+  profession?: string;
+  trait?: string;
+  notes?: string;
 };
 export type GenerateFactResponse = {
   bags?: Bag[];
@@ -328,6 +352,7 @@ export const {
   useGetApiMeQuery,
   useGetCharacterByIdQuery,
   useGetOpenedFactsQuery,
+  useGetAllFactsQuery,
   useGenerateFactQuery,
   useGetAllRoomsQuery,
 } = injectedRtkApi;

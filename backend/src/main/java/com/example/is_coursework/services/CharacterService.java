@@ -1,6 +1,5 @@
 package com.example.is_coursework.services;
 
-import com.example.is_coursework.dto.requests.AllFactsRequest;
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
 import com.example.is_coursework.dto.responses.*;
@@ -10,7 +9,9 @@ import com.example.is_coursework.models.enums.FactType;
 import com.example.is_coursework.models.enums.SexType;
 import com.example.is_coursework.repositories.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,57 +37,57 @@ public class CharacterService {
 
         // Проверка наличия значений в сгенерированном ответе
         if (!testGenerate.getBodyTypes().stream().anyMatch(bt -> bt.getId().equals(characterRequest.getBodyTypeId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getHealths().stream().anyMatch(h -> h.getId().equals(characterRequest.getHealthId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getTraits().stream().anyMatch(t -> t.getId().equals(characterRequest.getTraitId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getHobbies().stream().anyMatch(hb -> hb.getId().equals(characterRequest.getHobbyId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getProfessions().stream().anyMatch(p -> p.getId().equals(characterRequest.getProfessionId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getPhobiases().stream().anyMatch(ph -> ph.getId().equals(characterRequest.getPhobiaId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getEquipments().stream().anyMatch(e -> e.getId().equals(characterRequest.getEquipmentId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
         if (!testGenerate.getBags().stream().anyMatch(b -> b.getId().equals(characterRequest.getBagId()))) {
-            throw new IllegalArgumentException("Wrong user or room");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wrong user or room");
         }
 
 
         BodyType bodyType = bodyTypeRepository.findById(characterRequest.getBodyTypeId()).orElseThrow(
-                () -> new IllegalArgumentException("BodyType not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "BodyType not found"));
         Health health = healthRepository.findById(characterRequest.getHealthId()).orElseThrow(
-                () -> new IllegalArgumentException("Health not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Health not found"));
         Trait trait = traitRepository.findById(characterRequest.getTraitId()).orElseThrow(
-                () -> new IllegalArgumentException("Trait not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Trait not found"));
         Hobby hobby = hobbyRepository.findById(characterRequest.getHobbyId()).orElseThrow(
-                () -> new IllegalArgumentException("Hobby not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Hobby not found"));
         Profession profession = professionRepository.findById(characterRequest.getProfessionId()).orElseThrow(
-                () -> new IllegalArgumentException("Profession not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Profession not found"));
         Phobia phobia = phobiaRepository.findById(characterRequest.getPhobiaId()).orElseThrow(
-                () -> new IllegalArgumentException("Phobia not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Phobia not found"));
         Equipment equipment = equipmentRepository.findById(characterRequest.getEquipmentId()).orElseThrow(
-                () -> new IllegalArgumentException("Equipment not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Equipment not found"));
         Bag bag = bagRepository.findById(characterRequest.getBagId()).orElseThrow(
-                () -> new IllegalArgumentException("Bag not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Bag not found"));
 
         int totalLevel = bodyType.getLevel() + health.getLevel() + trait.getLevel() + hobby.getLevel() +
                 profession.getLevel() + phobia.getLevel() + equipment.getLevel() + bag.getLevel();
 
         if (totalLevel != 0) {
-            throw new IllegalArgumentException("Characteristics must be balanced.");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Characteristics must be balanced.");
         }
 
         Character character = characterRepository.findByRoomIdAndUser(characterRequest.getRoomId(), user).orElseThrow(
-                () -> new IllegalArgumentException("Character not found")
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Character not found")
         );
         Random random = new Random();
         int age = random.nextInt(100 - 15 + 1) + 15;
@@ -118,15 +119,15 @@ public class CharacterService {
 
     public CharacterResponse getCharacterById(Long id) {
         Character character = characterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Character not found"));
         return toCharacterResponse(character);
     }
 
     public FactResponse openFact(Long characterId, FactType factType) {
         Character character = characterRepository.findById(characterId).orElseThrow(
-                () -> new IllegalArgumentException("Character not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Character not found"));
         OpenedFacts openedFacts = openFactsRepository.findById(characterId).orElseThrow(
-                () -> new IllegalArgumentException("by character not found"));
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "by character not found"));
 
         FactResponse response;
         switch (factType) {
@@ -163,7 +164,7 @@ public class CharacterService {
                 openedFacts.setBag(character.getBag().getName());
                 break;
             default:
-                throw new IllegalArgumentException("Invalid fact type");
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Invalid fact type");
         }
         openFactsRepository.save(openedFacts);
         return response;
@@ -201,9 +202,7 @@ public class CharacterService {
         return response;
     }
 
-    public AllFactsResponse getAllFacts(AllFactsRequest allFactsRequest) {
-        Long characterId = allFactsRequest.getCharacterId();
-
+    public AllFactsResponse getAllFacts(Long characterId) {
         Character character = characterRepository.findById(characterId).orElseThrow();
         return AllFactsResponse.builder()
                 .name(character.getName())

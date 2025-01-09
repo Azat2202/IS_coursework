@@ -1,6 +1,5 @@
 package com.example.is_coursework.controllers;
 
-import com.example.is_coursework.dto.requests.AllFactsRequest;
 import com.example.is_coursework.dto.requests.CreateCharacterRequest;
 import com.example.is_coursework.dto.requests.OpenedFactsRequest;
 import com.example.is_coursework.dto.responses.*;
@@ -41,9 +40,9 @@ public class CharacterController {
         return characterService.getOpenFacts(openedFactsRequest);
     }
 
-    @GetMapping("/get_all_facts")
-    public AllFactsResponse getAllFacts(AllFactsRequest allFactsRequest) {
-        return characterService.getAllFacts(allFactsRequest);
+    @GetMapping("/get_all_facts/{character_id}")
+    public AllFactsResponse getAllFacts(@PathVariable Long character_id) {
+        return characterService.getAllFacts(character_id);
     }
 
     @GetMapping("/generate_facts/{roomId}")

@@ -35,24 +35,24 @@ export function SelectCharacteristics() {
     const {data: characteristics} = useGenerateFactQuery({roomId: roomId})
     const [saveCharacteristics] = useCreateCharacterMutation()
     const [name, setName] = useState("")
-    const [bodyTypeId, setBodyTypeId] = useState(1)
-    const [healthId, setHealthId] = useState(1)
-    const [traitId, setTraitId] = useState(1)
-    const [hobbyId, setHobbyId] = useState(1)
-    const [professionId, setProfessionId] = useState(1)
-    const [phobiaId, setPhobiaId] = useState(1)
-    const [equipmentId, setEquipmentId] = useState(1)
-    const [bagId, setBagId] = useState(1)
+    const [bodyTypeIdx, setbodyTypeIdx] = useState(1)
+    const [healthIdx, setHealthIdx] = useState(1)
+    const [traitIdx, setTraitIdx] = useState(1)
+    const [hobbyIdx, setHobbyIdx] = useState(1)
+    const [professionIdx, setProfessionIdx] = useState(1)
+    const [phobiaIdx, setPhobiaIdx] = useState(1)
+    const [equipmentIdx, setEquipmentIdx] = useState(1)
+    const [bagIdx, setBagIdx] = useState(1)
 
     const characteristicsList = [
-        {value: characteristics?.bodyTypes, selectedId: bodyTypeId, setter: setBodyTypeId},
-        {value: characteristics?.healths, selectedId: healthId, setter: setHealthId},
-        {value: characteristics?.traits, selectedId: traitId, setter: setTraitId},
-        {value: characteristics?.hobbies, selectedId: hobbyId, setter: setHobbyId},
-        {value: characteristics?.professions, selectedId: professionId, setter: setProfessionId},
-        {value: characteristics?.phobiases, selectedId: phobiaId, setter: setPhobiaId},
-        {value: characteristics?.equipments, selectedId: equipmentId, setter: setEquipmentId},
-        {value: characteristics?.bags, selectedId: bagId, setter: setBagId}
+        {value: characteristics?.bodyTypes, selectedId: bodyTypeIdx, setter: setbodyTypeIdx},
+        {value: characteristics?.healths, selectedId: healthIdx, setter: setHealthIdx},
+        {value: characteristics?.traits, selectedId: traitIdx, setter: setTraitIdx},
+        {value: characteristics?.hobbies, selectedId: hobbyIdx, setter: setHobbyIdx},
+        {value: characteristics?.professions, selectedId: professionIdx, setter: setProfessionIdx},
+        {value: characteristics?.phobiases, selectedId: phobiaIdx, setter: setPhobiaIdx},
+        {value: characteristics?.equipments, selectedId: equipmentIdx, setter: setEquipmentIdx},
+        {value: characteristics?.bags, selectedId: bagIdx, setter: setBagIdx}
     ].map(({value, selectedId, setter}) => {
         return {
             value: value ?? [],
@@ -61,29 +61,23 @@ export function SelectCharacteristics() {
         }
     })
 
-    function validateCharacteristics() {
-        const levelSum = characteristicsList
-            .map(({value, selectedId}) => value.at(selectedId)?.level ?? 0)
-            .reduce((a, b) => a + b, 0)
-        return levelSum !== 0
-    }
+    const levelSum = characteristicsList
+        .map(({value, selectedId}) => value.at(selectedId)?.level ?? 0)
+        .reduce((a, b) => a + b, 0)
 
     async function selectCharacteristics() {
         await saveCharacteristics({
             createCharacterRequest: {
                     name: name,
-                    age: 25,
-                    sex: "MALE",
                     notes: "",
-                    isActive: true,
-                    bodyTypeId: bodyTypeId,
-                    healthId: healthId,
-                    traitId: traitId,
-                    hobbyId: hobbyId,
-                    professionId: professionId,
-                    phobiaId: phobiaId,
-                    equipmentId: equipmentId,
-                    bagId: bagId,
+                    bodyTypeId: characteristics?.bodyTypes?.at(bodyTypeIdx)?.id ?? 0,
+                    healthId: characteristics?.healths?.at(healthIdx)?.id ?? 0,
+                    traitId: characteristics?.traits?.at(traitIdx)?.id ?? 0,
+                    hobbyId: characteristics?.hobbies?.at(hobbyIdx)?.id ?? 0,
+                    professionId: characteristics?.professions?.at(professionIdx)?.id ?? 0,
+                    phobiaId: characteristics?.phobiases?.at(phobiaIdx)?.id ?? 0,
+                    equipmentId: characteristics?.equipments?.at(equipmentIdx)?.id ?? 0,
+                    bagId: characteristics?.bags?.at(bagIdx)?.id ?? 0,
                     roomId: roomId
             }}).unwrap()
             .then(() => toast.success("Персонаж сохранен!"))
@@ -110,11 +104,12 @@ export function SelectCharacteristics() {
                     />
                 ))}
             </div>
+            <p>Текущая сумма: {levelSum} (должно быть 0)</p>
 
             <button
                 onClick={selectCharacteristics}
                 className="py-3 px-6 bg-green-700 hover:bg-green-800 disabled:opacity-50 disabled:bg-red-500 text-white font-semibold text-lg rounded-lg transition duration-300 transform hover:scale-105"
-                disabled={validateCharacteristics()}
+                disabled={levelSum !== 0}
             >
                 Выбрать характеристики
             </button>
