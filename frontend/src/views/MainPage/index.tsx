@@ -27,23 +27,46 @@ export function MainPage() {
     }
 
     return (
-        <div>
-            <h1>Главная страница</h1>
-            <p>У вас есть всего две возможности: создать игру и подключиться к уже существующей игре</p>
-            <button type={"button"}
-                    onClick={createGame}
-            >СОЗДАТЬ ИГРУ
-            </button>
-            <form onSubmit={enterGame}>
-                <label>
-                    Введите код комнаты:
-                </label>
-                <input type={"text"}
-                       onChange={e => setCode(e.target.value)}
-                       placeholder={"Код комнаты"}
-                />
-                <button type={"submit"}>ВОЙТИ В ИГРУ ПО КОДУ</button>
-            </form>
+        <div className="min-h-screen bg-burgundy-900 flex flex-col items-center justify-center text-white">
+
+            <main className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6 mt-12 p-6 w-full max-w-5xl min-h-80 bg-burgundy-900 rounded-xl shadow-lg">
+
+                <div className="w-full lg:w-1/2 min-h-80 bg-burgundy-950 p-6 rounded-lg shadow-[0_10px_10px_rgba(0,0,0,0.5),_0_-3px_10px_rgba(0,0,0,0.5)] shadow-burgundy-500/30 flex flex-col items-center justify-between space-y-4">
+                    <p className="text-2xl text-burgundy-200">Создать новую игру</p>
+                    <div className="flex-grow flex items-center justify-center w-1/2 h-20 py-3">
+                        <button
+                            onClick={createGame}
+                            className="w-full h-20 py-3 bg-burgundy-700  text-burgundy-200 font-semibold text-xl rounded-lg transition duration-300 transform hover:scale-105"
+                        >
+                            СОЗДАТЬ
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    className="w-full lg:w-1/2 min-h-80 bg-burgundy-950 p-6 rounded-lg shadow-[0_10px_10px_rgba(0,0,0,0.5),_0_-3px_10px_rgba(0,0,0,0.5)] shadow-burgundy-500/30 flex flex-col items-center space-y-4">
+                    <p className="text-2xl text-burgundy-200">Присоединиться к игре</p>
+                    <div className="flex-grow flex items-center justify-center w-1/2 h-20 py-3">
+                        <form onSubmit={enterGame} className="w-full space-y-4 items-center">
+                            <div className="flex flex-col w-full">
+                                <input
+                                    type="text"
+                                    value={code}
+                                    onChange={e => setCode(e.target.value)}
+                                    placeholder="Введите код комнаты"
+                                    className="p-3 w-full placeholder:text-burgundy-400 text-burgundy-950 bg-burgundy-200 rounded-lg border border-burgundy-700 focus:outline-none focus:ring-2 focus:ring-burgundy-400"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full h-20 py-3 bg-burgundy-700 text-burgundy-200 font-semibold text-xl rounded-lg transition duration-300 transform hover:scale-105"
+                            >
+                                ВОЙТИ В ИГРУ
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </main>
         </div>
-    )
+);
 }
