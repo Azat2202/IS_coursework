@@ -17,8 +17,8 @@ function CharacteristicsChoose({options, selectedId, onSelect}: characteristicCh
                     key={index}
                     className={`p-3 rounded-lg border-spacing-1 border-burgundy-900 cursor-pointer text-center transition duration-300 ${
                         index === selectedId
-                            ? "bg-burgundy-900 text-white"
-                            : "bg-burgundy-800 hover:bg-burgundy-850 text-gray-300"
+                            ? "bg-burgundy-900 text-burgundy-200"
+                            : "bg-burgundy-800 hover:bg-burgundy-850 text-burgundy-100"
                     }`}
                     onClick={() => onSelect(index)}
                 >
@@ -108,10 +108,16 @@ export function SelectCharacteristics() {
 
             <button
                 onClick={selectCharacteristics}
-                className="py-3 px-6 bg-green-700 hover:bg-green-800 disabled:opacity-50 disabled:bg-red-500 text-white font-semibold text-lg rounded-lg transition duration-300 transform hover:scale-105"
+                className="py-3 px-6 bg-burgundy-600  text-burgundy-100 font-semibold text-md rounded-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:bg-burgundy-950 disabled:cursor-not-allowed disabled:rounded-lg"
                 disabled={levelSum !== 0}
             >
-                Выбрать характеристики
+                СОЗДАТЬ
+                {levelSum !== 0 && (
+                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none" style={{
+                        backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
+                        backgroundSize: '10px 10px',
+                    }} />
+                )}
             </button>
         </div>
     );
