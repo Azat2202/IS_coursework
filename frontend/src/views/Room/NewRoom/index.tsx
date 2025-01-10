@@ -2,7 +2,7 @@ import {useGetApiMeQuery, useGetRoomStateQuery, useStartGameMutation} from "../.
 import {useEffect} from "react";
 import {SelectCharacteristics} from "../../../components/SelectCharacteristics";
 import toast from "react-hot-toast";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 export function NewRoom() {
     const { roomId: roomIdStr } = useParams<{ roomId: string }>()
@@ -25,6 +25,7 @@ export function NewRoom() {
         <div className="min-h-screen bg-burgundy-900 text-burgundy-200 flex flex-col items-center justify-center p-8">
             <header className="w-full text-center mb-6">
                 <h1 className="text-4xl font-bold text-burgundy-200">Добро пожаловать в комнату</h1>
+                <Link to={"/main"}>Вернуться на главную</Link>
             </header>
 
             <div className="bg-burgundy-950 p-6 rounded-lg shadow-[0_10px_10px_rgba(0,0,0,0.5),_0_-3px_10px_rgba(0,0,0,0.5)] shadow-burgundy-500/30 w-full max-w-xl mb-8">

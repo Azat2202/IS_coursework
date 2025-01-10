@@ -1,7 +1,7 @@
 import {FormEvent, useState} from "react";
 import toast from "react-hot-toast";
 import {useCreateRoomMutation, useJoinRoomMutation} from "../../store/types.generated";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export function MainPage() {
     const [code, setCode] = useState("")
@@ -67,6 +67,7 @@ export function MainPage() {
                     </div>
                 </div>
             </main>
+            <Link to={"/"}>Вернуться на главную</Link>
         </div>
 );
 }
