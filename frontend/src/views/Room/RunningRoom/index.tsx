@@ -20,7 +20,12 @@ export function RunningRoom() {
         <div className="min-h-screen bg-burgundy-900 text-white p-8">
             <header className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-burgundy-300 mb-4">ДОБРО ПОЖАЛОВАТЬ В ИГРУ</h1>
-                <Link to={"/main"}>Вернуться на главную</Link>
+                <Link to={"/main"}>
+                    <button
+                        className="bg-burgundy-950 hover:bg-burgundy-700 text-burgundy-200 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-200">
+                        Вернуться на главную
+                    </button>
+                </Link>
                 <p className="text-burgundy-200">Убедите игроков в своей ценности и попадите в бункер!</p>
             </header>
             <section className="mb-12">
