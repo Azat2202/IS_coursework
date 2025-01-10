@@ -10,6 +10,7 @@ import {CSSTransition} from "react-transition-group";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import "./PollResults.css";
+import {appConfig} from "../../index";
 
 function ShowPoll({poll, roomData, user}: { poll: PollMessage, roomData?: RoomMessage, user: User }) {
     const liveCharacters = roomData?.characters?.filter(character => character?.isActive)
@@ -27,11 +28,15 @@ function ShowPoll({poll, roomData, user}: { poll: PollMessage, roomData?: RoomMe
         }
     };
 
+    const estimatedTimeSeconds = (
+        (new Date(poll.creationTime!!).getTime() + 1000 * appConfig["pollTime"] - Date.now()) / 1000).toFixed(0)
+
     return (
         <div className="text-burgundy-200 bg-burgundy-800 rounded-lg shadow-[0_10px_10px_rgba(0,0,0,0.5),_0_-3px_10px_rgba(0,0,0,0.5)] shadow-burgundy-500/30 p-4 items-center flex-col flex">
             <p className="text-lg font-semibold text-burgundy-200 mb-4">
                 Раунд {poll.roundNumber}
             </p>
+            <p>Осталось: {estimatedTimeSeconds} секунд</p>
             {liveCharacters
                 ?.filter((character) => character?.user?.id !== user.id)
                 .map((character) => (
