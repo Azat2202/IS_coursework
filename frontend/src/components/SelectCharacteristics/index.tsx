@@ -112,7 +112,7 @@ export function SelectCharacteristics() {
                 disabled={levelSum !== 0 && name.trim().length !== 0}
             >
                 СОЗДАТЬ
-                {levelSum !== 0 && (
+                {levelSum !== 0 && name.trim().length !== 0 && (
                     <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none" style={{
                         backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
                         backgroundSize: '10px 10px',
