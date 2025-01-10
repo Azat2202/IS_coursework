@@ -7,11 +7,13 @@ interface characteristicChooseProps {
     options: string[] | undefined,
     selectedId: number,
     onSelect: (id: number) => void,
+    name: string
 }
 
-function CharacteristicsChoose({options, selectedId, onSelect}: characteristicChooseProps) {
+function CharacteristicsChoose({options, selectedId, onSelect, name}: characteristicChooseProps) {
     return (
         <div className="flex flex-col space-y-2 bg-burgundy-700 p-4 rounded-lg shadow-md w-full">
+            <p className={"text-center"}>{name}</p>
             {options?.map((option, index) => (
                 <div
                     key={index}
@@ -30,7 +32,7 @@ function CharacteristicsChoose({options, selectedId, onSelect}: characteristicCh
 }
 
 export function SelectCharacteristics() {
-    const { roomId: roomIdStr } = useParams<{ roomId: string }>()
+    const {roomId: roomIdStr} = useParams<{ roomId: string }>()
     const roomId = Number(roomIdStr)
     const {data: characteristics} = useGenerateFactQuery({roomId: roomId})
     const [saveCharacteristics] = useCreateCharacterMutation()
@@ -45,19 +47,40 @@ export function SelectCharacteristics() {
     const [bagIdx, setBagIdx] = useState(1)
 
     const characteristicsList = [
-        {value: characteristics?.bodyTypes, selectedId: bodyTypeIdx, setter: setbodyTypeIdx},
-        {value: characteristics?.healths, selectedId: healthIdx, setter: setHealthIdx},
-        {value: characteristics?.traits, selectedId: traitIdx, setter: setTraitIdx},
-        {value: characteristics?.hobbies, selectedId: hobbyIdx, setter: setHobbyIdx},
-        {value: characteristics?.professions, selectedId: professionIdx, setter: setProfessionIdx},
-        {value: characteristics?.phobiases, selectedId: phobiaIdx, setter: setPhobiaIdx},
-        {value: characteristics?.equipments, selectedId: equipmentIdx, setter: setEquipmentIdx},
-        {value: characteristics?.bags, selectedId: bagIdx, setter: setBagIdx}
-    ].map(({value, selectedId, setter}) => {
+        {
+            value: characteristics?.bodyTypes,
+            selectedId: bodyTypeIdx,
+            setter: setbodyTypeIdx,
+            characteristicName: "Телосложение"
+        },
+        {value: characteristics?.healths, selectedId: healthIdx, setter: setHealthIdx, characteristicName: "Здоровье"},
+        {
+            value: characteristics?.traits,
+            selectedId: traitIdx,
+            setter: setTraitIdx,
+            characteristicName: "Черта характера"
+        },
+        {value: characteristics?.hobbies, selectedId: hobbyIdx, setter: setHobbyIdx, characteristicName: "Хобби"},
+        {
+            value: characteristics?.professions,
+            selectedId: professionIdx,
+            setter: setProfessionIdx,
+            characteristicName: "Профессия"
+        },
+        {value: characteristics?.phobiases, selectedId: phobiaIdx, setter: setPhobiaIdx, characteristicName: "Фобия"},
+        {
+            value: characteristics?.equipments,
+            selectedId: equipmentIdx,
+            setter: setEquipmentIdx,
+            characteristicName: "Предмет"
+        },
+        {value: characteristics?.bags, selectedId: bagIdx, setter: setBagIdx, characteristicName: "Инвентарь"}
+    ].map(({value, selectedId, setter, characteristicName}) => {
         return {
             value: value ?? [],
             selectedId: selectedId,
-            setter: setter
+            setter: setter,
+            characteristicName: characteristicName
         }
     })
 
@@ -68,18 +91,19 @@ export function SelectCharacteristics() {
     async function selectCharacteristics() {
         await saveCharacteristics({
             createCharacterRequest: {
-                    name: name,
-                    notes: "",
-                    bodyTypeId: characteristics?.bodyTypes?.at(bodyTypeIdx)?.id ?? 0,
-                    healthId: characteristics?.healths?.at(healthIdx)?.id ?? 0,
-                    traitId: characteristics?.traits?.at(traitIdx)?.id ?? 0,
-                    hobbyId: characteristics?.hobbies?.at(hobbyIdx)?.id ?? 0,
-                    professionId: characteristics?.professions?.at(professionIdx)?.id ?? 0,
-                    phobiaId: characteristics?.phobiases?.at(phobiaIdx)?.id ?? 0,
-                    equipmentId: characteristics?.equipments?.at(equipmentIdx)?.id ?? 0,
-                    bagId: characteristics?.bags?.at(bagIdx)?.id ?? 0,
-                    roomId: roomId
-            }}).unwrap()
+                name: name,
+                notes: "",
+                bodyTypeId: characteristics?.bodyTypes?.at(bodyTypeIdx)?.id ?? 0,
+                healthId: characteristics?.healths?.at(healthIdx)?.id ?? 0,
+                traitId: characteristics?.traits?.at(traitIdx)?.id ?? 0,
+                hobbyId: characteristics?.hobbies?.at(hobbyIdx)?.id ?? 0,
+                professionId: characteristics?.professions?.at(professionIdx)?.id ?? 0,
+                phobiaId: characteristics?.phobiases?.at(phobiaIdx)?.id ?? 0,
+                equipmentId: characteristics?.equipments?.at(equipmentIdx)?.id ?? 0,
+                bagId: characteristics?.bags?.at(bagIdx)?.id ?? 0,
+                roomId: roomId
+            }
+        }).unwrap()
             .then(() => toast.success("Персонаж сохранен!"))
             .catch(e => toast.error("Создать персонажа не удалось"))
     }
@@ -101,10 +125,12 @@ export function SelectCharacteristics() {
                         options={characteristic.value.map(v => v.name ?? "СЕКРЕТ")}
                         selectedId={characteristic.selectedId}
                         onSelect={characteristic.setter}
+                        name={characteristic.characteristicName}
                     />
                 ))}
             </div>
-            <p>Текущая сумма: {levelSum} (должно быть 0) {name.trim().length === 0 ? "и имя непустое!" : ""}</p>
+            <p>Текущая сумма характеристик: {levelSum} (должно быть 0)</p>
+            <p>{name.trim().length === 0 ? "Имя пустое!" : ""}</p>
 
             <button
                 onClick={selectCharacteristics}
@@ -112,11 +138,12 @@ export function SelectCharacteristics() {
                 disabled={levelSum !== 0 || name.trim().length === 0}
             >
                 СОЗДАТЬ
-                {(levelSum !== 0 || name.trim().length === 0)  && (
-                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none" style={{
-                        backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
-                        backgroundSize: '10px 10px',
-                    }} />
+                {(levelSum !== 0 || name.trim().length === 0) && (
+                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none"
+                          style={{
+                              backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
+                              backgroundSize: '10px 10px',
+                          }}/>
                 )}
             </button>
         </div>
