@@ -18,7 +18,7 @@ export function NewRoom() {
     async function startGameButtonHandler() {
         await startGame({roomId: roomId}).unwrap()
             .then(() => toast.success("Игра начата!"))
-            .catch(() => toast.error("Игру начать не удалось! Слишком мало участников!"))
+            .catch(() => toast.error("Игру начать не удалось! Слишком мало участников или персонажи еще не созданы!"))
     }
 
     return (
