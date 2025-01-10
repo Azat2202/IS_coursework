@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
+import {useGetApiMeQuery} from "../../store/types.generated";
 
 export function LandingPage() {
     const auth = useAuth();
+    const {data: userData} = useGetApiMeQuery()
 
     return (
         <div className="min-h-screen bg-burgundy-900 flex flex-col text-white">
@@ -13,8 +15,8 @@ export function LandingPage() {
                 </div>
                 <div>
                     {auth.user?.access_token && <button onClick={() => auth.removeUser()}
-                        className="bg-burgundy-900 hover:bg-burgundy-700 text-burgundy-100 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-100">
-                        ВЫЙТИ ИЗ АККАУНТА
+                        className="bg-burgundy-900 mr-2 hover:bg-burgundy-700 text-burgundy-100 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-100">
+                        ВЫЙТИ ИЗ АККАУНТА ({userData?.username})
                     </button>}
                     <Link to="/main">
                         <button
