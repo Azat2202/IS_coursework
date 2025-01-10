@@ -69,10 +69,11 @@ function ShowPoll({poll, roomData, user}: { poll: PollMessage, roomData?: RoomMe
             >
                 Проголосовать
                 {selectedCharacterId === null && (
-                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none" style={{
-                        backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
-                        backgroundSize: '10px 10px',
-                    }} />
+                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none"
+                          style={{
+                              backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
+                              backgroundSize: '10px 10px',
+                          }}/>
                 )}
             </button>
         </div>
