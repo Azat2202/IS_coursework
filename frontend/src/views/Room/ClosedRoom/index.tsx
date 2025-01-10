@@ -1,13 +1,15 @@
-import {useGetRoomStateQuery} from "../../../store/types.generated";
+import {useGetApiMeQuery, useGetRoomStateQuery} from "../../../store/types.generated";
 import {useEffect} from "react";
 import {BunkerInformation} from "../../../components/BunkerInformation";
 import {CharactersTable} from "../../../components/CharactersTable";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import {PollInformation} from "../../../components/PollInformation";
 
-export function ClosedRoom(){
-    const { roomId: roomIdStr } = useParams<{ roomId: string }>()
+export function ClosedRoom() {
+    const {roomId: roomIdStr} = useParams<{ roomId: string }>()
     const roomId = Number(roomIdStr)
-    const {data: roomData, refetch: refetchRoomData } = useGetRoomStateQuery({roomId: roomId})
+    const {data: roomData, refetch: refetchRoomData} = useGetRoomStateQuery({roomId: roomId})
+    const {data: user} = useGetApiMeQuery()
 
     useEffect(() => {
         const intervalId = setInterval(refetchRoomData, 200)
@@ -17,15 +19,21 @@ export function ClosedRoom(){
     return (
         <div className="min-h-screen bg-burgundy-900 text-white p-8">
             <header className="text-center mb-8">
-                <h1 className="text-2xl font-bold text-burgundy-300 mb-4">ДОБРО ПОЖАЛОВАТЬ В ИГРУ</h1>
-                <p className="text-burgundy-200">Убедите игроков в своей ценности и попадите в бункер!</p>
+                <h1 className="text-2xl font-bold text-burgundy-300 mb-4">ИГРА ОКОНЧЕНА</h1>
+                <Link to={"/main"}>Вернуться на главную</Link>
             </header>
             <section className="mb-12">
-                <BunkerInformation roomData={roomData} />
+                <BunkerInformation roomData={roomData}/>
             </section>
-            <section>
-                <CharactersTable roomData={roomData} canOpen={false} />
-            </section>
+            {user && <>
+                <section>
+                    <CharactersTable roomData={roomData} canOpen={false} user={user}/>
+                </section>
+                <section>
+                    <PollInformation roomData={roomData} canOpen={false} user={user}/>
+                </section>
+            </>
+            }
         </div>
     );
 }

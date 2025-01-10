@@ -1,11 +1,12 @@
-import {RoomMessage, useGetAllFactsQuery, useGetApiMeQuery, useOpenFactMutation} from "../../store/types.generated";
+import {
+    RoomMessage,
+    useGetAllFactsQuery,
+    useGetApiMeQuery,
+    useOpenFactMutation,
+    User
+} from "../../store/types.generated";
 
-function UserFact() {
-    return <div></div>
-}
-
-export function CharactersTable({roomData, canOpen}: { roomData?: RoomMessage, canOpen: boolean }) {
-    const {data: user} = useGetApiMeQuery();
+export function CharactersTable({roomData, canOpen, user}: { roomData?: RoomMessage, canOpen: boolean, user: User }) {
     const characterId = roomData?.characters
         ?.find(character => character?.user?.id === user?.id)
         ?.id ?? 0
@@ -35,7 +36,7 @@ export function CharactersTable({roomData, canOpen}: { roomData?: RoomMessage, c
                 </thead>
                 <tbody>
                 {roomData?.characters?.map((character) => (
-                    <tr className="bg-burgundy-800">
+                    <tr className={`${character.isActive ? "bg-burgundy-800" : "line-through bg-black"}`}>
                         <td className="border border-burgundy-900 px-4 py-2">{character.user?.username}</td>
                         <td className="border border-burgundy-900 px-4 py-2">{character.name}</td>
                         <td className="border border-burgundy-900 px-4 py-2">{character.openedFacts?.bodyType}</td>

@@ -58,7 +58,8 @@ public class Poll {
                 .roundNumber(roundNumber)
                 .creationTime(creationTime)
                 .isOpen(isOpen)
-                .targetCharacter(modelMapper.map(targetCharacter, CharacterPrivateMessage.class))
+                .targetCharacter(
+                        targetCharacter != null ? modelMapper.map(targetCharacter, CharacterPrivateMessage.class) : null)
                 .build();
         if (!isOpen) {
             pollMessage = pollMessage.toBuilder().votes(votes.stream().map(Vote::toVoteMessage).toList()).build();

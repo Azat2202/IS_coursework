@@ -109,7 +109,7 @@ export function SelectCharacteristics() {
             <button
                 onClick={selectCharacteristics}
                 className="py-3 px-6 bg-burgundy-600  text-burgundy-100 font-semibold text-md rounded-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:bg-burgundy-950 disabled:cursor-not-allowed disabled:rounded-lg"
-                disabled={levelSum !== 0}
+                disabled={levelSum !== 0 && name.trim().length !== 0}
             >
                 СОЗДАТЬ
                 {levelSum !== 0 && (

@@ -12,7 +12,7 @@ export function BunkerInformation({roomData}: {roomData?: RoomMessage}) {
                 <li>Максимальная вместимость: <span className="font-bold">{(roomData?.characters?.length ?? 0) / 2} человек</span></li>
                 <li>
                     Полезные вещи в бункере:{" "}
-                    <span className="font-bold">{roomData?.bunker?.equipments?.map(e => e.name).join(", ") || "Нету"}</span>
+                    <span className="font-bold">{roomData?.bunker?.equipments?.map(e => e.name).join(", ") || "Нет"}</span>
                 </li>
             </ul>
         </div>

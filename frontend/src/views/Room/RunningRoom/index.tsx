@@ -1,13 +1,15 @@
-import {useGetRoomStateQuery} from "../../../store/types.generated";
+import {useGetApiMeQuery, useGetRoomStateQuery} from "../../../store/types.generated";
 import {useEffect} from "react";
 import {BunkerInformation} from "../../../components/BunkerInformation";
 import {CharactersTable} from "../../../components/CharactersTable";
 import {useParams} from "react-router-dom";
+import {PollInformation} from "../../../components/PollInformation";
 
-export function RunningRoom(){
-    const { roomId: roomIdStr } = useParams<{ roomId: string }>()
+export function RunningRoom() {
+    const {roomId: roomIdStr} = useParams<{ roomId: string }>()
     const roomId = Number(roomIdStr)
-    const {data: roomData, refetch: refetchRoomData } = useGetRoomStateQuery({roomId: roomId})
+    const {data: user} = useGetApiMeQuery()
+    const {data: roomData, refetch: refetchRoomData} = useGetRoomStateQuery({roomId: roomId})
 
     useEffect(() => {
         const intervalId = setInterval(refetchRoomData, 200)
@@ -24,8 +26,12 @@ export function RunningRoom(){
                 <BunkerInformation roomData={roomData} />
             </section>
             <section>
-                <CharactersTable roomData={roomData} canOpen={true} />
+                {user && <CharactersTable roomData={roomData} canOpen={true} user={user}/>}
             </section>
+            <section>
+                {user && <PollInformation user={user} canOpen={true} roomData={roomData}/>}
+            </section>
+
         </div>
     );
 }
