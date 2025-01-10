@@ -104,15 +104,15 @@ export function SelectCharacteristics() {
                     />
                 ))}
             </div>
-            <p>Текущая сумма: {levelSum} (должно быть 0)</p>
+            <p>Текущая сумма: {levelSum} (должно быть 0) {name.trim().length === 0 ? "и имя непустое!" : ""}</p>
 
             <button
                 onClick={selectCharacteristics}
                 className="py-3 px-6 bg-burgundy-600  text-burgundy-100 font-semibold text-md rounded-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:bg-burgundy-950 disabled:cursor-not-allowed disabled:rounded-lg"
-                disabled={levelSum !== 0 && name.trim().length !== 0}
+                disabled={levelSum !== 0 || name.trim().length === 0}
             >
                 СОЗДАТЬ
-                {levelSum !== 0 && (
+                {(levelSum !== 0 || name.trim().length === 0)  && (
                     <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none" style={{
                         backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
                         backgroundSize: '10px 10px',

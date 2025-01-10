@@ -10,6 +10,7 @@ import {CSSTransition} from "react-transition-group";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import "./PollResults.css";
+import {appConfig} from "../../index";
 
 function ShowPoll({poll, roomData, user}: { poll: PollMessage, roomData?: RoomMessage, user: User }) {
     const liveCharacters = roomData?.characters?.filter(character => character?.isActive)
@@ -27,8 +28,12 @@ function ShowPoll({poll, roomData, user}: { poll: PollMessage, roomData?: RoomMe
         }
     };
 
+    const estimatedTimeSeconds = (
+        (new Date(poll.creationTime!!).getTime() + 1000 * appConfig["pollTime"] - Date.now()) / 1000).toFixed(0)
+
     return <div>
         <p>ОПРОС Раунд {poll.roundNumber}</p>
+        <p>Осталось: {estimatedTimeSeconds} секунд</p>
         {liveCharacters?.filter(character => character?.user?.id !== user.id).map(character => (
             <div key={character?.id}>
                 <input

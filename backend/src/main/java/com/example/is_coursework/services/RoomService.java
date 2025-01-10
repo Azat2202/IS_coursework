@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Locale;
@@ -90,7 +89,7 @@ public class RoomService {
     }
 
     public RoomMessage getRoom(User user, Long roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("Room not found"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Room not found"));
         if (!room.getAdmin().equals(user) &&
                 room.getCharacters()
                         .stream()
@@ -102,7 +101,7 @@ public class RoomService {
 
     public RoomMessage joinRoom(User user, String joinCode) {
         Room room = roomRepository.findByJoinCode(joinCode)
-                .orElseThrow(() -> new NotFoundException("Room not found"));
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Room not found"));
         if (room.getCharacters()
                 .stream()
                 .anyMatch(character -> character.getUser().equals(user))) {
