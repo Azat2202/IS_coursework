@@ -28,9 +28,7 @@ export function CharactersTable({roomData, canOpen}: { roomData?: RoomMessage, c
                     <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Здоровье</th>
                     <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Хобби</th>
                     <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Фобия</th>
-                    <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Особенность
-                        характера
-                    </th>
+                    <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Особенность характера</th>
                     <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Инструмент</th>
                     <th className="border border-burgundy-900 px-4 py-2 text-left font-semibold text-sm">Инвентарь</th>
                 </tr>
