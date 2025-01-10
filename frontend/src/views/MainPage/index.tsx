@@ -67,7 +67,7 @@ export function MainPage() {
                     </div>
                 </div>
             </main>
-            <Link to={"/main"}>
+            <Link to={"/"}>
                 <button
                     className="bg-burgundy-950 hover:bg-burgundy-700 text-burgundy-200 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-200">
                     Вернуться на главную
