@@ -30,7 +30,8 @@ const oidcConfig = {
 
 export const appConfig = {
     localStoragePath: "oidc.user:http://localhost:8484/realms/bunker:bunker",
-    pollTime: 360
+    pollTime: 360,
+    places_in_room_to_live_persent: 40
 }
 
 root.render(

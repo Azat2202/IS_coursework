@@ -12,8 +12,13 @@ export function LandingPage() {
                     <h1 className="text-5xl font-extrabold tracking-wider">BUNKER</h1>
                 </div>
                 <div>
+                    {auth.user?.access_token && <button onClick={() => auth.removeUser()}
+                        className="bg-burgundy-900 hover:bg-burgundy-700 text-burgundy-100 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-100">
+                        ВЫЙТИ ИЗ АККАУНТА
+                    </button>}
                     <Link to="/main">
-                        <button className="bg-burgundy-900 hover:bg-burgundy-700 text-burgundy-100 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-100">
+                        <button
+                            className="bg-burgundy-900 hover:bg-burgundy-700 text-burgundy-100 font-bold py-2 px-6 rounded-lg transition duration-300 border-2 border-burgundy-100">
                             НАЧАТЬ
                         </button>
                     </Link>
