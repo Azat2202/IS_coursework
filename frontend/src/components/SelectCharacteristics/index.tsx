@@ -139,7 +139,7 @@ export function SelectCharacteristics() {
             >
                 СОЗДАТЬ
                 {(levelSum !== 0 || name.trim().length === 0) && (
-                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none"
+                    <span className="absolute inset-0 rounded-lg bg-burgundy-300 opacity-50 pointer-events-none cursor-not-allowed hover:scale-100"
                           style={{
                               backgroundImage: 'linear-gradient(135deg, rgba(79, 50, 61, 0.5) 25%, transparent 25%, transparent 75%, rgba(79, 50, 61, 0.5) 75%)',
                               backgroundSize: '10px 10px',
