@@ -141,3 +141,4 @@ buildNumber.properties
 
 backend/src/main/resources/secrets.properties
 .idea
+backend/liquibase.properties

@@ -8,4 +8,3 @@ public class OpenedFactsRequest {
     @NotNull
     private Long characterId;
 }
-

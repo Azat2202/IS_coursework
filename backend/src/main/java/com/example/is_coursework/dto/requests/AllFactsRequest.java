@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class GenerateFactRequest {
+public class AllFactsRequest {
     @NotNull
-    private Long roomId;
+    private Long characterId;
 }
 

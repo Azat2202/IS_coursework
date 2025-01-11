@@ -1,6 +1,5 @@
 package com.example.is_coursework.messages;
 
-import com.example.is_coursework.models.Character;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,7 +17,7 @@ public class PollMessage{
 
     private Boolean isOpen;
 
-    private Character targetCharacter;
+    private CharacterPrivateMessage targetCharacter;
 
     private List<VoteMessage> votes;
 }
